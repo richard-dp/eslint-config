@@ -1,6 +1,6 @@
 {
   "name": "@richard-dp/eslint-config",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "My strict eslint flat config",
   "type": "module",
   "main": "eslint.config.js",

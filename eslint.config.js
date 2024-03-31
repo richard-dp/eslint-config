@@ -2,6 +2,18 @@ import eslintJs from "@eslint/js";
 import eslintTs from "typescript-eslint";
 import pluginStylistic from "@stylistic/eslint-plugin";
 
+export function deletePluginReferences(eslintConfig, pluginName) {
+  const modifiedConfig = eslintConfig;
+  for (const item of modifiedConfig) {
+    if ("plugins" in item) {
+      if (pluginName in item.plugins) {
+        delete item.plugins[pluginName];
+      }
+    }
+  }
+  return modifiedConfig;
+}
+
 export const plugins = { plugins: { "@stylistic": pluginStylistic } };
 
 export const ignores = {
@@ -29,9 +41,15 @@ export const languageOptions = {
 
 export const baseOptions = [ languageOptions, ignores ];
 
-const jsConfig = [ eslintJs.configs.recommended, { rules: { eqeqeq: [ "error", "allow-null" ] } } ];
+export const jsRules = { rules: { eqeqeq: [ "error", "allow-null" ] } };
 
-const tsConfig = [ ...eslintTs.config(...jsConfig, ...eslintTs.configs.recommended), { rules: { "@typescript-eslint/no-namespace": "off" } } ];
+export const jsConfig = [ eslintJs.configs.recommended, jsRules ];
+
+
+export const tsRules = { rules: { "@typescript-eslint/no-namespace": "off" } };
+
+export const tsConfig = [ ...eslintTs.config(...jsConfig, ...eslintTs.configs.recommended), tsRules ];
+
 
 export const stylisticRules = {
   rules: {
@@ -248,6 +266,7 @@ export const stylisticRules = {
     "@stylistic/yield-star-spacing": [ "error", "after" ],
   },
 };
+
 
 export const js = [
   ...jsConfig,
